@@ -17,9 +17,15 @@ package com.example.android.sunshine.utilities;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.sunshine.data.SunshinePreferences;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Wearable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +37,7 @@ import java.util.Scanner;
 /**
  * These utilities will be used to communicate with the weather servers.
  */
-public final class NetworkUtils {
+public final class NetworkUtils implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
@@ -108,6 +114,23 @@ public final class NetworkUtils {
             return buildUrlWithLocationQuery(locationQuery);
         }
     }
+
+
+    public static GoogleApiClient getGoogleApiClient(Context context) {
+
+        GoogleApiClient mGoogleApiClient;
+
+        mGoogleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(Wearable.API)
+                .build();
+        mGoogleApiClient.connect();
+
+        return mGoogleApiClient;
+    }
+
+
+
+
 
     /**
      * Builds the URL used to talk to the weather server using latitude and longitude of a
@@ -186,5 +209,20 @@ public final class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

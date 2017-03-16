@@ -99,6 +99,10 @@ public class SunshineSyncUtils {
         /* Schedule the Job with the dispatcher */
         dispatcher.schedule(syncSunshineJob);
     }
+
+
+
+
     /**
      * Creates periodic sync tasks and checks to see if an immediate sync is required. If an
      * immediate sync is required, this method will take care of making sure that sync occurs.

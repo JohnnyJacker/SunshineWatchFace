@@ -20,6 +20,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -170,6 +171,9 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "onCreate");
             }
+
+            //  This is where everything gets initialized
+
             super.onCreate(holder);
 
             setWatchFaceStyle(new WatchFaceStyle.Builder(SunshineWatchFaceService.this)
@@ -198,6 +202,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
             mDate = new Date();
             initFormats();
+
+
         }
 
         @Override
@@ -218,6 +224,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             return paint;
         }
 
+        //  When it goes from acvite to ambient
         @Override
         public void onVisibilityChanged(boolean visible) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
@@ -430,6 +437,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             return amPm == Calendar.AM ? mAmString : mPmString;
         }
 
+        //  This is where the watch face gets drawn
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             long now = System.currentTimeMillis();
@@ -606,6 +614,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         private boolean updateUiForKey(String configKey, int color) {
             if (configKey.equals(SunshineWatchFaceUtil.KEY_BACKGROUND_COLOR)) {
                 setInteractiveBackgroundColor(color);
+                setInteractiveBackgroundColor(getResources().getColor(R.color.primary));
+
             } else if (configKey.equals(SunshineWatchFaceUtil.KEY_HOURS_COLOR)) {
                 setInteractiveHourDigitsColor(color);
             } else if (configKey.equals(SunshineWatchFaceUtil.KEY_MINUTES_COLOR)) {

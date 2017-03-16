@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
     };
 
+//    public static final String[] WEARABLE_FORECAST_PROJECTION = {
+//            WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+//            WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+//            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
+//    };
+
     /*
      * We store the indices of the values in the array of Strings above to more quickly be able to
      * access the data from our query. If the order of the Strings above changes, these indices
