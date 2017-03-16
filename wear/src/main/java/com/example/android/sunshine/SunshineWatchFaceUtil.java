@@ -48,7 +48,7 @@ public final class SunshineWatchFaceUtil {
     /**
      * The path for the {@link DataItem} containing {@link SunshineWatchFaceService} configuration.
      */
-    public static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
+    public static final String PATH_WITH_FEATURE = "/weather-data";
 
     /**
      * Name of the default interactive mode background color and the ambient mode background color.
@@ -113,7 +113,7 @@ public final class SunshineWatchFaceUtil {
                         String localNode = getLocalNodeResult.getNode().getId();
                         Uri uri = new Uri.Builder()
                                 .scheme("wear")
-                                .path(SunshineWatchFaceUtil.PATH_WITH_FEATURE)
+                                .path("/weather-data")
                                 .authority(localNode)
                                 .build();
                         Wearable.DataApi.getDataItem(client, uri)

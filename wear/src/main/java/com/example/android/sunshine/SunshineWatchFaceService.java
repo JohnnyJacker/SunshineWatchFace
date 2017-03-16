@@ -572,7 +572,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
 
                 DataItem dataItem = dataEvent.getDataItem();
                 if (!dataItem.getUri().getPath().equals(
-                        SunshineWatchFaceUtil.PATH_WITH_FEATURE)) {
+                        "/weather-data")) {
                     continue;
                 }
 
