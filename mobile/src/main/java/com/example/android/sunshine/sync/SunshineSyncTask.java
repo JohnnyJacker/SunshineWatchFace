@@ -49,11 +49,7 @@ import java.net.URL;
 import static android.R.attr.data;
 import static android.R.attr.path;
 
-public class SunshineSyncTask {
-
-
-
-
+public class SunshineSyncTask implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
 
     /**
@@ -68,14 +64,9 @@ public class SunshineSyncTask {
 
         final String LOG_TAG = SunshineSyncTask.class.getSimpleName();
 
-//        GoogleApiClient mGoogleApiClient;
-//
-//        mGoogleApiClient = new GoogleApiClient.Builder(context)
-//                .addApi(Wearable.API)
-//                .addConnectionCallbacks()
-//                .addOnConnectionFailedListener()
-//                .build();
-//        mGoogleApiClient.connect();
+        GoogleApiClient mGoogleApiClient;
+
+
 
 
         try {
@@ -121,6 +112,7 @@ public class SunshineSyncTask {
                 /* Get a handle on the ContentResolver to delete and insert data */
                 ContentResolver sunshineContentResolver = context.getContentResolver();
 
+
                 /* Delete old weather data because we don't need to keep multiple days' data */
                 sunshineContentResolver.delete(
                         WeatherContract.WeatherEntry.CONTENT_URI,
@@ -134,6 +126,27 @@ public class SunshineSyncTask {
 
 
 
+                mGoogleApiClient = new GoogleApiClient.Builder(context)
+                        .addApi(Wearable.API)
+                        .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(@Nullable Bundle bundle) {
+
+                                Log.d(LOG_TAG, bundle + " items sent");
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+
+                            }
+                        })
+                        .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                            @Override
+                            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                            }
+                        })
+                        .build();
 
 
 
@@ -179,23 +192,28 @@ public class SunshineSyncTask {
                     putDataMapRequest.getDataMap().putInt("weather-id", weatherId);
 
                     PutDataRequest request = putDataMapRequest.asPutDataRequest().setUrgent();
-                    PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(NetworkUtils.getGoogleApiClient(context), request);
+                    PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
 
                     pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                         @Override
                         public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
 
-                            if (!dataItemResult.getStatus().isSuccess()) {
-                                Log.e(LOG_TAG, "OOPS: Failed to send weather data item " + path);
-                            } else {
+                            if (dataItemResult.getStatus().isSuccess()) {
                                 Log.e(LOG_TAG, "DataMap: " + data + " sent successfully to data layer");
+                            } else {
+                                Log.e(LOG_TAG, "Failed to send weather data item " + path);
                             }
 
                         }
                     });
+
                     cursor.close();
 
                 }
+
+
+
+
 
 
 
@@ -242,4 +260,18 @@ public class SunshineSyncTask {
         }
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

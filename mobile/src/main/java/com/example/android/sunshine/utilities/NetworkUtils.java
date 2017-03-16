@@ -116,17 +116,19 @@ public final class NetworkUtils implements GoogleApiClient.ConnectionCallbacks, 
     }
 
 
-    public static GoogleApiClient getGoogleApiClient(Context context) {
-
-        GoogleApiClient mGoogleApiClient;
-
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .addApi(Wearable.API)
-                .build();
-        mGoogleApiClient.connect();
-
-        return mGoogleApiClient;
-    }
+//    public static GoogleApiClient getGoogleApiClient(Context context) {
+//
+//        GoogleApiClient mGoogleApiClient;
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(context)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(Wearable.API)
+//                .build();
+//        mGoogleApiClient.connect();
+//
+//        return mGoogleApiClient;
+//    }
 
 
 
@@ -223,6 +225,7 @@ public final class NetworkUtils implements GoogleApiClient.ConnectionCallbacks, 
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
 
     }
 }
