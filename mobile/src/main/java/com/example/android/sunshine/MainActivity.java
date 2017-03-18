@@ -31,10 +31,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
 import com.example.android.sunshine.sync.SunshineSyncUtils;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.WearableListenerService;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -159,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements
         getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
 
         SunshineSyncUtils.initialize(this);
+
 
     }
 

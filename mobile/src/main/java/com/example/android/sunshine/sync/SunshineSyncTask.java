@@ -41,9 +41,11 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.google.android.gms.wearable.WearableListenerService;
 
 import java.net.URL;
 
@@ -51,6 +53,10 @@ import static android.R.attr.data;
 import static android.R.attr.path;
 
 public class SunshineSyncTask {
+
+
+    private String LOG_TAG = SunshineSyncTask.class.getSimpleName();
+
 
 
     /**
@@ -61,7 +67,7 @@ public class SunshineSyncTask {
      *
      * @param context Used to access utility methods and the ContentResolver
      */
-    static synchronized public void syncWeather (Context context) {
+    static synchronized public void syncWeather (final Context context) {
 
         final String LOG_TAG = SunshineSyncTask.class.getSimpleName();
 
@@ -123,6 +129,7 @@ public class SunshineSyncTask {
                             public void onConnected(@Nullable Bundle bundle) {
 
                                 Log.d(LOG_TAG, "Connection Successful");
+
                             }
 
                             @Override
@@ -252,5 +259,6 @@ public class SunshineSyncTask {
             e.printStackTrace();
         }
     }
+
 
 }
