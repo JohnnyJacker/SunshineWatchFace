@@ -201,6 +201,10 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             }).start();
 
 
+
+
+
+
         }
 
 
@@ -228,12 +232,24 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     // DataItem changed
                     DataItem item = event.getDataItem();
 
+                    if (item.getUri().getPath().equals(PATH_DATA_REQUEST)) {
+                        DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
+
+                        updateWeather(dataMap);
+                    }
+
+
                     if (item.getUri().getPath().equals(PATH)) {
 
                         DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                         //  Update the weather
                         updateWeather(dataMap);
                     }
+
+
+
+
+
                 } else if (event.getType() == DataEvent.TYPE_DELETED) {
                     // DataItem deleted
                 }
