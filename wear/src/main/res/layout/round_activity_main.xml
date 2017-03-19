@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/primary"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/background_color">
 
     <TextView
         android:id="@+id/time"

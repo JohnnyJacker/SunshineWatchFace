@@ -15,7 +15,6 @@
  */
 package com.example.android.sunshine.sync;
 
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,9 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.android.sunshine.MainActivity;
 import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
 import com.example.android.sunshine.utilities.NetworkUtils;
@@ -40,12 +37,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
 import java.net.URL;
 
@@ -58,7 +52,6 @@ public class SunshineSyncTask {
     private String LOG_TAG = SunshineSyncTask.class.getSimpleName();
 
 
-
     /**
      * Performs the network request for updated weather, parses the JSON from that request, and
      * inserts the new weather information into our ContentProvider. Will notify the user that new
@@ -67,13 +60,11 @@ public class SunshineSyncTask {
      *
      * @param context Used to access utility methods and the ContentResolver
      */
-    static synchronized public void syncWeather (final Context context) {
+    static synchronized public void syncWeather(final Context context) {
 
         final String LOG_TAG = SunshineSyncTask.class.getSimpleName();
 
         GoogleApiClient mGoogleApiClient;
-
-
 
 
         try {
@@ -121,7 +112,6 @@ public class SunshineSyncTask {
                         weatherValues);
 
 
-
                 mGoogleApiClient = new GoogleApiClient.Builder(context)
                         .addApi(Wearable.API)
                         .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -149,7 +139,6 @@ public class SunshineSyncTask {
                 mGoogleApiClient.connect();
 
 
-
                 Uri forecastQueryUri = WeatherContract.WeatherEntry.CONTENT_URI;
 
                 String[] WearableForecastProjection = {
@@ -170,7 +159,9 @@ public class SunshineSyncTask {
                 }
 
 
-                if (cursor != null && cursor.moveToFirst()) {
+                if (cursor != null) {
+
+                    cursor.moveToFirst();
 
                     double high = cursor.getDouble(0);
                     double low = cursor.getDouble(1);
@@ -178,13 +169,6 @@ public class SunshineSyncTask {
 
                     String formattedHigh = SunshineWeatherUtils.formatTemperature(context, high);
                     String formattedLow = SunshineWeatherUtils.formatTemperature(context, low);
-
-                    Log.d(LOG_TAG, "The maximum formatted temperature today is " + formattedHigh);
-                    Log.d(LOG_TAG, "The minimum formatted temperature today is " + formattedLow);
-
-//                    Log.d(LOG_TAG, "The maximum temperature today is " + Double.toString(high));
-//                    Log.d(LOG_TAG, "The minimum temperature today is " + Double.toString(low));
-                    Log.d(LOG_TAG, "The weather id for today is " + Integer.toString(weatherId));
 
                     PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/weather-data").setUrgent();
                     putDataMapRequest.getDataMap().putString("high-temperature", formattedHigh);
@@ -210,16 +194,6 @@ public class SunshineSyncTask {
                     cursor.close();
 
                 }
-
-
-
-
-
-
-
-
-
-
 
             /*
              * Finally, after we insert data into the ContentProvider, determine whether or not
