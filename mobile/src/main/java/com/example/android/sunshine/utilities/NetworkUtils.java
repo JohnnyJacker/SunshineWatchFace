@@ -60,8 +60,8 @@ public final class NetworkUtils implements GoogleApiClient.ConnectionCallbacks, 
     private static final String STATIC_WEATHER_URL =
             "https://andfun-weather.udacity.com/staticweather";
 
-    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
-
+//    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
+    private static final String FORECAST_BASE_URL = DYNAMIC_WEATHER_URL;
     /*
      * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
      * server. They are simply here to allow us to teach you how to build a URL if you were to use

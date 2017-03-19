@@ -1,10 +1,53 @@
 <resources>
     <string name="app_name">Sunshine</string>
-    <string name="hello_round">Hello Round World!</string>
-    <string name="hello_square">Hello Square World!</string>
-    <string name="my_digital_name">Sunshine Watchface</string>
     <string name="cont_desc_icon">Current Weather Icon</string>
 
-    <string name="digital_am">AM</string>
-    <string name="digital_pm">PM</string>
+
+    <!--used by SunshineWatchFaceService-->
+
+    <string name="wearable_send_message_error">Error sending data to mobile device connected: </string>
+    <string name="wearable_send_message_success">Success sending data to mobile device connected:</string>
+    <string name="wearable_add_listener_connected">Wearable Add Listener Connected</string>
+    <string name="wearable_data_request_message">Hi this is your wearable device.  I need data!</string>
+    <string name="weather_data_path">/weather-data</string>
+    <string name="weather_data_request_path">/weather-data-request</string>
+
+    <string name="key_weather_id">weather-id</string>
+    <string name="key_high_temperature">high-temperature</string>
+    <string name="key_low_temperature">low-temperature</string>
+
+    <string name="on_connection_suspended">Suspended</string>
+    <string name="on_connection_failed">Connection Failed</string>
+    <string name="on_data_changed">onData Changed Called</string>
+
+
+    <!--used by SunshineWatchFaceUtils-->
+
+    <!--days of the week-->
+
+    <string name="sunday">SUN</string>
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+
+
+    <!--months of the year-->
+
+    <string name="january">JAN</string>
+    <string name="february">FEB</string>
+    <string name="march">MAR</string>
+    <string name="april">APR</string>
+    <string name="may">MAY</string>
+    <string name="june">JUN</string>
+    <string name="july">JUL</string>
+    <string name="august">AUG</string>
+    <string name="september">SEP</string>
+    <string name="october">OCT</string>
+    <string name="november">NOV</string>
+    <string name="december">DEC</string>
+
+
 </resources>

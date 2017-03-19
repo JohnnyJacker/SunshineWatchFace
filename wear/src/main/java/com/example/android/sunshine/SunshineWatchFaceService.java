@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,7 +35,6 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -50,8 +48,6 @@ import java.util.concurrent.TimeUnit;
  * and without seconds in mute mode.
  */
 public class SunshineWatchFaceService extends CanvasWatchFaceService {
-    private static final Typeface NORMAL_TYPEFACE =
-            Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
 
     /**
      * Update rate in milliseconds for interactive mode. We update once a second since seconds are
@@ -122,11 +118,11 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         private String lowTemp;
         private int iconInt;
         private GoogleApiClient mGoogleApiClient;
-        private final String PATH = "/weather-data";
-        private final String PATH_DATA_REQUEST = "/weather-data-request";
-        private final String KEY_WEATHER_ID = "weather-id";
-        private final String KEY_TEMP_HIGH = "high-temperature";
-        private final String KEY_TEMP_LOW = "low-temperature";
+        private final String PATH = getResources().getString(R.string.weather_data_path);
+        private final String PATH_DATA_REQUEST = getResources().getString(R.string.weather_data_request_path);
+        private final String KEY_WEATHER_ID = getResources().getString(R.string.key_weather_id);
+        private final String KEY_TEMP_HIGH = getResources().getString(R.string.key_high_temperature);
+        private final String KEY_TEMP_LOW = getResources().getString(R.string.key_low_temperature);
 
         /**
          * Whether the display supports fewer bits for each color in ambient mode. When true, we
@@ -180,7 +176,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onConnected(Bundle bundle) {
             Wearable.DataApi.addListener(mGoogleApiClient, this);
-            Log.e(TAG, "connected");
+            Log.d(TAG, getResources().getString(R.string.wearable_add_listener_connected));
 
             new Thread(new Runnable() {
                 @Override
@@ -189,11 +185,15 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
                     for (Node node : nodes.getNodes()) {
                         MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage
-                                (mGoogleApiClient, node.getId(), PATH_DATA_REQUEST, "Hello World".getBytes()).await();
+                                (mGoogleApiClient, node.getId(), PATH_DATA_REQUEST, (getResources()
+                                        .getString(R.string.wearable_data_request_message)).getBytes()).await();
+
+                        String displayName = node.getDisplayName();
+
                         if (!result.getStatus().isSuccess()) {
-                            Log.d(TAG, "Error");
+                            Log.d(TAG, getResources().getString(R.string.wearable_send_message_error) + " " + displayName);
                         } else {
-                            Log.d(TAG, "Success sent to: " + node.getDisplayName());
+                            Log.d(TAG, getResources().getString(R.string.wearable_send_message_success) + " " + displayName);
                         }
                     }
 
@@ -201,42 +201,34 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
             }).start();
 
 
-
-
-
-
         }
-
 
 
         @Override
         public void onConnectionSuspended(int cause) {
-            Log.e(TAG, "Suspended: " + String.valueOf(cause));
+            Log.e(TAG, getResources().getString(R.string.on_connection_suspended) + " " + String.valueOf(cause));
 
         }
 
         @Override
         public void onConnectionFailed(ConnectionResult result) {
-            Log.e(TAG, "ConnectionFailed: " + result);
+            Log.e(TAG, getResources().getString(R.string.on_connection_failed) + " " + result);
 
         }
 
+        //  This is only called if the data is changed since the last update
         @Override
         public void onDataChanged(DataEventBuffer dataEvents) {
 
-            Log.d(TAG, "onDataChanged called");
+            Log.d(TAG, getResources().getString(R.string.on_data_changed));
+
 
             for (DataEvent event : dataEvents) {
+
 
                 if (event.getType() == DataEvent.TYPE_CHANGED) {
                     // DataItem changed
                     DataItem item = event.getDataItem();
-
-                    if (item.getUri().getPath().equals(PATH_DATA_REQUEST)) {
-                        DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
-
-                        updateWeather(dataMap);
-                    }
 
 
                     if (item.getUri().getPath().equals(PATH)) {
@@ -245,9 +237,6 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                         //  Update the weather
                         updateWeather(dataMap);
                     }
-
-
-
 
 
                 } else if (event.getType() == DataEvent.TYPE_DELETED) {

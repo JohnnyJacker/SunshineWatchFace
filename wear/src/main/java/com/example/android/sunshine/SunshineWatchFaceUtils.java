@@ -2,10 +2,6 @@ package com.example.android.sunshine;
 
 import java.util.Calendar;
 
-/**
- * Created by chris on 3/13/2017.
- */
-
 
 public final class SunshineWatchFaceUtils {
 
@@ -110,5 +106,6 @@ public final class SunshineWatchFaceUtils {
     }
 
 
-    private SunshineWatchFaceUtils() { }
+    private SunshineWatchFaceUtils() {
+    }
 }

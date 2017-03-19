@@ -1,39 +1,20 @@
 package com.example.android.sunshine.sync;
 
-import android.content.Context;
-import android.net.sip.SipAudioCall;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.android.sunshine.MainActivity;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-
-import java.util.List;
 
 
 public class ListenerService extends WearableListenerService {
 
     private String LOG_TAG = ListenerService.class.getSimpleName();
 
-
+    //  When the mobile device receives a message from the connected wearable device
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
-//        showToast(messageEvent.getPath());
-
-//        SunshineSyncTask.syncWeather(this);\
-        Log.d(LOG_TAG, messageEvent.getPath());
-        SunshineSyncUtils.startImmediateSync(this);
-
-
-
-
+        //  Sync weather immediately
+        SunshineSyncUtils.startImmediateSync(getApplicationContext());
 
     }
 
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
 }
