@@ -25,7 +25,7 @@ public class ListenerService extends WearableListenerService {
 
 //        SunshineSyncTask.syncWeather(this);\
         Log.d(LOG_TAG, messageEvent.getPath());
-//        SunshineSyncUtils.startImmediateSync(this);
+        SunshineSyncUtils.startImmediateSync(this);
 
 
 
